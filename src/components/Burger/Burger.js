@@ -12,7 +12,7 @@ const burger = (props) => {
         });
     }) // before reduce [[salad, salad], [bacon], [cheese, cheese, cheese], [meat]]
     .reduce((arr, el) => { // after reduce [salad, salad, bacon, cheese, cheese, cheese, meat]
-        console.log(`arr is ${arr}`) // Above:  salad is <BurgerIngredient .... type={salad} />
+        // Above:  salad is <BurgerIngredient .... type={salad} />
         return arr.concat(el)
     }, []); // initialValue is []
     if (transformedIngredients.length === 0) {
