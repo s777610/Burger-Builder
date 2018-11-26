@@ -16,6 +16,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
         // componentDidMount is called after all children rendered, meaning after componentDidMount of <WrappedComponent {...this.props} /> is completed
         // so we use componentWillMount () here, it get called before children rendered
         componentWillMount() {
+            // intercept requests or responses before they are handled by then or catch.
             this.reqInterceptor = axios.interceptors.request.use(req => {
                 this.setState({error: null});
                 return req;
@@ -27,7 +28,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
 
         componentWillUnmount() {
             //console.log('componentWillUnmount !!', this.reqInterceptor, this.resInterceptor)
-            
+
             // Interceptors are actually added globally, not just to the wrapped component. 
             // That's why ejecting is important when the component that uses them is not rendered anymore.
 
@@ -42,7 +43,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
         }
 
         render () {
-            return (
+            return ( // error,message is returned by firebase
                 <Aux>
                     <Modal 
                         show={this.state.error}
