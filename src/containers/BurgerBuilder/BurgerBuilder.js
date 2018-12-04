@@ -12,9 +12,6 @@ import * as burgerBuilderActions from '../../store/actions/index';
 import axios from '../../axios-orders';
 
 
-
-
-
 class BurgerBuilder extends Component {
     state = {
         purchasing: false
@@ -22,7 +19,7 @@ class BurgerBuilder extends Component {
 
     componentDidMount () {
         console.log(this.props); 
-        this.props.onInitIngredients();
+        this.props.onInitIngredients(); // dispatch action to init ingredients..
     }
 
 
@@ -59,7 +56,8 @@ class BurgerBuilder extends Component {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
         let orderSummary = null;
-        let burger = this.state.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
+        // burger is Spinner before burger come
+        let burger = this.props.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
 
         if ( this.props.ings ) {
             burger = (
@@ -81,9 +79,7 @@ class BurgerBuilder extends Component {
                 purchaseCancelled={this.purchaseCancelHandler}
                 purchaseContinued={this.purchaseContinueHandler} />;
         }
-        if ( this.state.loading ) {
-            orderSummary = <Spinner />;
-        }
+        
         // {salad: true, meat: false, ...}
         return (
             <Aux>
@@ -96,6 +92,8 @@ class BurgerBuilder extends Component {
     }
 }
 
+
+// access the state by call this.props.ings
 const mapStateToProps = state => {
     return {
         ings: state.ingredients,

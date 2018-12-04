@@ -15,6 +15,9 @@ export const removeIngredient = ( name ) => {
     };
 };
 
+//////////////////////////////
+/// fatch data from API /////
+/////////////////////////////
 export const setIngredients = ( ingredients ) => {
     return {
         type: actionTypes.SET_INGREDIENTS,
@@ -28,6 +31,7 @@ export const fetchIngredientsFailed = () => {
     };
 };
 
+// thunk middleware catch the action, then do something...
 export const initIngredients = () => {
     return dispatch => {
         axios.get( '/ingredients.json' )
