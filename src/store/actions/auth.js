@@ -1,4 +1,10 @@
+import axios from 'axios';
 import * as actionTypes from './actionTypes';
+
+
+////////////////////////
+// action creator //////
+////////////////////////
 
 export const authStart = () => {
     return {
@@ -6,7 +12,7 @@ export const authStart = () => {
     };
 };
 
-export const authSucess = (authData) => {
+export const authSuccess = (authData) => { // response.data from api
     return {
         type: actionTypes.AUTH_SUCCESS,
         authData: authData
@@ -23,5 +29,19 @@ export const authFail = (error) => {
 export const auth = (email, password) => {
     return dispatch => {
         dispatch(authStart());
+        const authData = {
+            email: email,
+            password: password,
+            returnSecureToken: true
+        };
+        axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${process.env.REACT_APP_WEATHER_API_KEY}`, authData)
+            .then(response => {
+                console.log(response)
+                dispatch(authSuccess(response.data));
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(authFail(err));
+            })
     };
 };
