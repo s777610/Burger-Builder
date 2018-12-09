@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../utility';
+import { updateObject } from '../../shared/utility';
 
 //////////////////////////////////////////////////
 /// reducer accept action and update the state ///
@@ -37,7 +37,7 @@ const authLogout = (state, action) => {
 };
 
 const setAuthRedirectPath = (state, action) => {
-    return updateObject(state, { authRedirectPath: action.path })
+    return updateObject(state, { authRedirectPath: action.path }) // set to 'checkout' if user built burger before login
 }
 
 const reducer = ( state = initialState, action ) => {
