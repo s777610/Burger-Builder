@@ -1,5 +1,5 @@
 # Burger Builder
-This project([Burger Builder](https://react-my-burger-bcc18.firebaseapp.com/)) was built by react and redux and deployed on Firebase. This demo project is a tutorial from Udemy.
+This project([Burger Builder](https://react-my-burger-bcc18.firebaseapp.com/)) was built by React and Redux and deployed on Firebase. This demo project is a tutorial from Udemy.
 
 ## Installation
 ```npm install```
@@ -12,10 +12,10 @@ This project([Burger Builder](https://react-my-burger-bcc18.firebaseapp.com/)) w
 2. Launches the test runner in the interactive watch mode. There are some testing file for test components, containers and redux.<br>
 ```npm test```
 
-```k```
 
 3. Builds the app for production to the build folder.<br>
 ```npm run build```
+
 
 ## Architecture
 ```
