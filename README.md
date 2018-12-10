@@ -1,5 +1,5 @@
 # Burger Builder
-This project([Burger Builder](https://react-my-burger-bcc18.firebaseapp.com/)) was built by React and Redux and deployed on Firebase. This demo project is a tutorial from Udemy.
+This SPA project([Burger Builder](https://react-my-burger-bcc18.firebaseapp.com/)) was built by React and Redux and deployed on Firebase. This demo project is a tutorial from Udemy.
 
 ## Installation
 ```npm install```
