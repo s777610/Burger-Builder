@@ -7,7 +7,7 @@ import Aux from "../Aux/Aux";
 // The purpose of the withErrorHandler HOC is to add a customized error GUI //////////
 //////////////////////////////////////////////////////////////////////////////////////
 const withErrorHandler = (WrappedComponent, axios) => {
-  // withErrorHandler create a class component
+  // withErrorHandler create a func component
   return props => {
     const [error, setError] = useState(null);
 
