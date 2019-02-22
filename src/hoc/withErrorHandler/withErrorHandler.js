@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import Modal from "../../components/UI/Modal/Modal";
 import Aux from "../Aux/Aux";
@@ -8,57 +8,41 @@ import Aux from "../Aux/Aux";
 //////////////////////////////////////////////////////////////////////////////////////
 const withErrorHandler = (WrappedComponent, axios) => {
   // withErrorHandler create a class component
-  return class extends Component {
-    state = {
-      error: null
+  return props => {
+    const [error, setError] = useState(null);
+
+    const reqInterceptor = axios.interceptors.request.use(req => {
+      setError(null);
+      return req;
+    });
+    const resInterceptor = axios.interceptors.response.use(
+      res => res,
+      err => {
+        setError(err);
+      }
+    );
+
+    // componentWillUnmont
+    useEffect(() => {
+      return () => {
+        axios.interceptors.request.eject(reqInterceptor);
+        axios.interceptors.response.eject(resInterceptor);
+      };
+    }, [reqInterceptor, resInterceptor]);
+
+    const errorConfirmedHandler = () => {
+      setError(null);
     };
 
-    // componentDidMount is called after all children rendered, meaning after componentDidMount of <WrappedComponent {...this.props} /> is completed
-    // so we use componentWillMount() here, it get called before children rendered
-    componentWillMount() {
-      // intercept requests or responses before they are handled by then or catch.
-      this.reqInterceptor = axios.interceptors.request.use(req => {
-        this.setState({ error: null });
-        return req;
-      });
-      this.resInterceptor = axios.interceptors.response.use(
-        res => res,
-        error => {
-          this.setState({ error: error });
-        }
-      );
-    }
-
-    componentWillUnmount() {
-      //console.log('componentWillUnmount !!', this.reqInterceptor, this.resInterceptor)
-
-      // Interceptors are actually added globally, not just to the wrapped component.
-      // That's why ejecting is important when the component that uses them is not rendered anymore.
-
-      // it could make sense if your auth status changes and you don't want to check that in the interceptor
-      // but simply not run an interceptor at all if the user is unauthenticated.
-      axios.interceptors.request.eject(this.reqInterceptor);
-      axios.interceptors.response.eject(this.resInterceptor);
-    }
-
-    errorConfirmedHandler = () => {
-      this.setState({ error: null });
-    };
-
-    render() {
-      return (
-        // error,message is returned by firebase
-        <Aux>
-          <Modal
-            show={this.state.error}
-            modalClosed={this.errorConfirmedHandler}
-          >
-            {this.state.error ? this.state.error.message : null}
-          </Modal>
-          <WrappedComponent {...this.props} />
-        </Aux>
-      );
-    }
+    return (
+      // error,message is returned by firebase
+      <Aux>
+        <Modal show={error} modalClosed={errorConfirmedHandler}>
+          {error ? error.message : null}
+        </Modal>
+        <WrappedComponent {...props} />
+      </Aux>
+    );
   };
 };
 
