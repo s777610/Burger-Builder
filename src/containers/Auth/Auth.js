@@ -6,10 +6,10 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import classes from "./Auth.module.css";
-import * as actions from "../../store/actions/index";
+import { auth, setAuthRedirectPath } from "../../store/actions/auth";
 import { updateObject, checkValidity } from "../../shared/utility";
 
-const auth = props => {
+const Auth = props => {
   const [authForm, setAuthForm] = useState({
     email: {
       elementType: "input",
@@ -44,7 +44,7 @@ const auth = props => {
 
   useEffect(() => {
     if (!props.buildingBurger && props.authRedirectPath !== "/") {
-      props.onSetAuthRedirectPath(); // go to '/'
+      props.setAuthRedirectPath(); // go to '/'
     }
   }, []);
 
@@ -64,7 +64,7 @@ const auth = props => {
 
   const submitHandler = event => {
     event.preventDefault();
-    props.onAuth(authForm.email.value, authForm.password.value, isSignup);
+    props.auth(authForm.email.value, authForm.password.value, isSignup);
   };
 
   const switchAuthModeHandler = () => {
@@ -132,15 +132,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuth: (email, password, isSignup) =>
-      dispatch(actions.auth(email, password, isSignup)),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(auth);
+  { auth, setAuthRedirectPath }
+)(Auth);
