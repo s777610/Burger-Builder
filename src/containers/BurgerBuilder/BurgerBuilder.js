@@ -8,14 +8,20 @@ import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as actions from "../../store/actions/index";
+import { setAuthRedirectPath } from "../../store/actions/auth";
+import { purchaseInit } from "../../store/actions/order";
+import {
+  addIngredient,
+  removeIngredient,
+  initIngredients
+} from "../../store/actions/burgerBuilder";
 import axios from "../../axios-orders";
 
 const burgerBuilder = props => {
   const [purchasing, setPurchasing] = useState(false);
 
   useEffect(() => {
-    props.onInitIngredients(); // dispatch action to init ingredients..
+    props.initIngredients(); // dispatch action to init ingredients..
   }, []);
 
   const updatePurchaseState = ingredients => {
@@ -34,7 +40,7 @@ const burgerBuilder = props => {
       setPurchasing(true);
     } else {
       // updated state for redirect path '/checkout', and redirect to '/auth'
-      props.onSetAuthRedirectPath("/checkout");
+      props.setAuthRedirectPath("/checkout");
       props.history.push("/auth");
     }
   };
@@ -45,7 +51,7 @@ const burgerBuilder = props => {
 
   // push url on history stack, change the url, goes to Checkout
   const purchaseContinueHandler = () => {
-    props.onInitPurchase(); // set purchased to false before go to checkout
+    props.purchaseInit(); // set purchased to false before go to checkout
     props.history.push("/checkout");
   };
 
@@ -68,8 +74,8 @@ const burgerBuilder = props => {
       <Aux>
         <Burger ingredients={props.ings} />
         <BuildControls
-          ingredientAdded={props.onIngredientAdded}
-          ingredientRemoved={props.onIngredientRemoved}
+          ingredientAdded={props.addIngredient}
+          ingredientRemoved={props.removeIngredient}
           disabled={disabledInfo}
           purchasable={updatePurchaseState(props.ings)}
           ordered={purchaseHandler}
@@ -110,17 +116,23 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
-    onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
-    onInitIngredients: () => dispatch(actions.initIngredients()),
-    onInitPurchase: () => dispatch(actions.purchaseInit()),
-    onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path))
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
+//     onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
+//     onInitIngredients: () => dispatch(actions.initIngredients()),
+//     onInitPurchase: () => dispatch(actions.purchaseInit()),
+//     onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path))
+//   };
+// };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {
+    addIngredient,
+    removeIngredient,
+    initIngredients,
+    purchaseInit,
+    setAuthRedirectPath
+  }
 )(withErrorHandler(burgerBuilder, axios));
