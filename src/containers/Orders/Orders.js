@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import Order from "../../components/Order/Order";
 import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as actions from "../../store/actions/index";
+import { fetchOrders } from "../../store/actions/order";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 const orders = props => {
   // componentDidMount
   useEffect(() => {
-    props.onFetchOrders(props.token, props.userId);
+    props.fetchOrders(props.token, props.userId);
   }, []);
 
   let orders = <Spinner />;
@@ -36,14 +36,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onFetchOrders: (token, userId) =>
-      dispatch(actions.fetchOrders(token, userId))
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { fetchOrders }
 )(withErrorHandler(orders, axios));

@@ -116,16 +116,6 @@ const mapStateToProps = state => {
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
-//     onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
-//     onInitIngredients: () => dispatch(actions.initIngredients()),
-//     onInitPurchase: () => dispatch(actions.purchaseInit()),
-//     onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path))
-//   };
-// };
-
 export default connect(
   mapStateToProps,
   {
