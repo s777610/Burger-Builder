@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Layout from "./hoc/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import Logout from "./containers/Auth/Logout/Logout";
-import * as actions from "./store/actions/index";
+import { authCheckState } from "./store/actions/auth";
 
 // lazy loading //
 const Checkout = React.lazy(() => {
@@ -22,7 +22,7 @@ const Auth = React.lazy(() => {
 
 const app = props => {
   useEffect(() => {
-    props.onTryAutoSignup();
+    props.authCheckState();
   }, []);
 
   let routes = (
@@ -61,15 +61,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState())
-  };
-};
-
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    { authCheckState }
   )(app)
 );
