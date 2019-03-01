@@ -32,15 +32,13 @@ export const fetchIngredientsFailed = () => {
 };
 
 // thunk middleware catch the action, then do something...
-export const initIngredients = () => {
-  return dispatch => {
-    axios
-      .get("/ingredients.json")
-      .then(response => {
-        dispatch(setIngredients(response.data));
-      })
-      .catch(error => {
-        dispatch(fetchIngredientsFailed());
-      });
-  };
+export const initIngredients = () => dispatch => {
+  axios
+    .get("/ingredients.json")
+    .then(response => {
+      dispatch(setIngredients(response.data));
+    })
+    .catch(error => {
+      dispatch(fetchIngredientsFailed());
+    });
 };

@@ -4,7 +4,6 @@ import * as actionTypes from "./actionTypes";
 ////////////////////////////////////////////////
 // action creator, always return action ////////
 ////////////////////////////////////////////////
-
 export const authStart = () => {
   return {
     type: actionTypes.AUTH_START
